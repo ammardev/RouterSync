@@ -48,7 +48,8 @@ class ExportRoutes extends Command
             $jsonOutput['api'][] = $route->uri;
         }
         
-        Storage::disk('local')->put('routes.json', json_encode($jsonOutput));
-        return;
+        Storage::disk(config('routersync.disk'))
+            ->put(config('routersync.export_path') . '/' . config('routersync.file_name'),
+               json_encode($jsonOutput));
     }
 }
