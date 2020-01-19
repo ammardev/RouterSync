@@ -38,6 +38,11 @@ class ExportRoutes extends Command
      */
     public function handle()
     {
+        if(config('routersync.is_gateway')) {
+            $this->error('This project is an API gateway. You can\'t export its routes.');
+            return;
+        }
+
         $routesCollection = app('router')->getRoutes();
         $serviceName = strtolower(config('app.name'));
         $jsonOutput = [
