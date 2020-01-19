@@ -39,17 +39,18 @@ class ExportRoutes extends Command
     public function handle()
     {
         $routesCollection = app('router')->getRoutes();
+        $serviceName = strtolower(config('app.name'));
         $jsonOutput = [
-            'basePath' => strtolower(config('app.name')),
+            'basePath' => $serviceName,
             'api' => []
         ];
 
         foreach($routesCollection as $route) {
             $jsonOutput['api'][] = $route->uri;
         }
-        
-        Storage::disk(config('routersync.disk'))
-            ->put(config('routersync.export_path') . '/' . config('routersync.file_name'),
-               json_encode($jsonOutput));
+
+        $disk = Storage::createLocalDriver(['root' => config('routersync.export_path')]);
+        $disk->put(config('routersync.file_name'), json_encode($jsonOutput));
+        return;
     }
 }

@@ -8,17 +8,12 @@ return [
     'is_gateway' => false,
 
     /**
-     * Keep it empty to store in the default storage path.
+     * The path of the export command result file
      */
-    'export_path' => '',
+    'export_path' => base_path() . '/../services_routes/',
 
     /**
      * The name of the exported file
      */
-    'file_name' => 'routes.json',
-
-    /**
-     * Storage disk to be used
-     */
-    'disk' => 'local'
+    'file_name' => strtolower(config('app.name')),
 ];
