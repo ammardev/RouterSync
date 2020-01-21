@@ -51,9 +51,12 @@ class ExportRoutes extends Command
         ];
 
         foreach($routesCollection as $route) {
+            $action = $route->getAction();
             $jsonOutput['api'][] = [
                 "methods" => $route->methods,
-                "uri" => $route->uri
+                "original_uri" => $route->uri,
+                "uri" => $action['gateway_route'] ?? $route->uri,
+                'private' => $action['gateway_auth'] ?? false
             ];
         }
 
