@@ -13,8 +13,8 @@ class RouterSyncServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
         }
-        
-        if(config('routersync.is_gateway')) {
+
+        if (config('routersync.is_gateway')) {
             $this->registerRoutes();
         }
     }
@@ -32,7 +32,7 @@ class RouterSyncServiceProvider extends ServiceProvider
     {
         return ['routersync'];
     }
-    
+
     protected function bootForConsole()
     {
         $this->publishes([
@@ -40,29 +40,28 @@ class RouterSyncServiceProvider extends ServiceProvider
         ], 'routersync.config');
 
         $this->commands([
-            ExportRoutes::class
+            ExportRoutes::class,
         ]);
     }
 
-    private function registerRoutes() 
+    private function registerRoutes()
     {
         $disk = Storage::createLocalDriver(['root' => config('routersync.export_path')]);
         $filesNames = $disk->files();
-        foreach($filesNames as $fileName) {
+        foreach ($filesNames as $fileName) {
             $fileContents = json_decode($disk->get($fileName), true);
-            foreach($fileContents['api'] as $route) {
-                foreach($route['methods'] as $method) {
-                    if($method == 'HEAD') {
+            foreach ($fileContents['api'] as $route) {
+                foreach ($route['methods'] as $method) {
+                    if ($method == 'HEAD') {
                         continue;
                     }
-                    $this->app->router->{$method}($fileContents['basePath'] . '/' . trim($route['uri'], '/'), [
+                    $this->app->router->{$method}($fileContents['basePath'].'/'.trim($route['uri'], '/'), [
                         'uses' => 'Luqta\RouterSync\Controllers\GatewayController@requestMicroservice',
-                        'middleware' => $route['private']? 'auth': '',
-                        'original_uri' => $fileContents['basePath'] . '/' . trim($route['original_uri'], '/'),
+                        'middleware' => $route['private'] ? 'auth' : '',
+                        'original_uri' => $fileContents['basePath'].'/'.trim($route['original_uri'], '/'),
                     ]);
                 }
             }
         }
-
     }
 }
