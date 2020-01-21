@@ -55,8 +55,10 @@ class RouterSyncServiceProvider extends ServiceProvider
                     if($method == 'HEAD') {
                         continue;
                     }
-                    $this->app->router->{$method}($fileContents['basePath'] . '/' . $route['uri'], [
-                        'uses' => 'Luqta\RouterSync\Controllers\GatewayController@' . strtolower($method)
+                    $this->app->router->{$method}($fileContents['basePath'] . '/' . trim($route['uri'], '/'), [
+                        'uses' => 'Luqta\RouterSync\Controllers\GatewayController@' . strtolower($method),
+                        'middleware' => $route['private']? 'auth': '',
+                        'original_uri' => $fileContents['basePath'] . '/' . trim($route['original_uri'], '/'),
                     ]);
                 }
             }
