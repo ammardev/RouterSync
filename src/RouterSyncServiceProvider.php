@@ -56,7 +56,7 @@ class RouterSyncServiceProvider extends ServiceProvider
                         continue;
                     }
                     $this->app->router->{$method}($fileContents['basePath'] . '/' . trim($route['uri'], '/'), [
-                        'uses' => 'Luqta\RouterSync\Controllers\GatewayController@' . strtolower($method),
+                        'uses' => 'Luqta\RouterSync\Controllers\GatewayController@requestMicroservice',
                         'middleware' => $route['private']? 'auth': '',
                         'original_uri' => $fileContents['basePath'] . '/' . trim($route['original_uri'], '/'),
                     ]);
