@@ -56,7 +56,7 @@ class RouterSyncServiceProvider extends ServiceProvider
                         continue;
                     }
                     $this->app->router->{$method}($fileContents['basePath'] . '/' . $route['uri'], [
-                        'uses' => 'Luqta\RouterSync\Controllers\GatewayController@test'
+                        'uses' => 'Luqta\RouterSync\Controllers\GatewayController@' . strtolower($method)
                     ]);
                 }
             }
