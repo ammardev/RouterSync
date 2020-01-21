@@ -1,16 +1,16 @@
 {
     "name": "luqta/routersync",
-    "description": ":package_description",
-    "license": "license",
+    "description": "BETA: Not ready to use yet.",
+    "license": "MIT",
     "authors": [
         {
-            "name": "author name",
-            "email": "author email",
+            "name": "Ammar Al-Khawaldeh",
+            "email": "me@ammar.dev",
             "homepage": "author homepage"
         }
     ],
-    "homepage": "https://github.com/luqta/routersync",
-    "keywords": ["Laravel", "RouterSync"],
+    "homepage": "https://github.com/ammardev/routersync",
+    "keywords": ["Laravel", "RouterSync", "ApiGateway", "microservices"],
     "require": {
         "illuminate/support": "~5|~6"
     },
