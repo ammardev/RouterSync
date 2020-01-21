@@ -51,7 +51,10 @@ class ExportRoutes extends Command
         ];
 
         foreach($routesCollection as $route) {
-            $jsonOutput['api'][] = $route->uri;
+            $jsonOutput['api'][] = [
+                "methods" => $route->methods,
+                "uri" => $route->uri
+            ];
         }
 
         $disk = Storage::createLocalDriver(['root' => config('routersync.export_path')]);
