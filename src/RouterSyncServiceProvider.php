@@ -11,7 +11,9 @@ class RouterSyncServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->app->configure('routersync');
+        if($this->app instanceof \Laravel\Lumen\Application) {
+            $this->app->configure('routersync');
+        }
         $this->mergeConfigFrom(__DIR__.'/../config/routersync.php', 'routersync');
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
