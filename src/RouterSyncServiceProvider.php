@@ -11,6 +11,8 @@ class RouterSyncServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        $this->app->configure('routersync');
+        $this->mergeConfigFrom(__DIR__.'/../config/routersync.php', 'routersync');
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
         }
@@ -18,12 +20,11 @@ class RouterSyncServiceProvider extends ServiceProvider
         if (config('routersync.is_gateway')) {
             $this->registerRoutes();
         }
+
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/routersync.php', 'routersync');
-
         $this->app->singleton('routersync', function ($app) {
             return new RouterSync;
         });
