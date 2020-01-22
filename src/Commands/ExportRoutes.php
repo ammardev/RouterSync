@@ -4,6 +4,7 @@ namespace Luqta\RouterSync\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use Luqta\RouterSync\Routing\RoutesCollection;
 
 class ExportRoutes extends Command
 {
@@ -40,26 +41,20 @@ class ExportRoutes extends Command
     {
         if (config('routersync.is_gateway')) {
             $this->error('This project is an API gateway. You can\'t export its routes.');
-
             return;
         }
 
-        $routesCollection = app('router')->getRoutes();
+        if(app() instanceof \Laravel\Lumen\Application) {
+            $routes = app('router')->getCollection();
+        } else {
+            $routes = RoutesCollection::getInstanceFromLaravelCollection(app('router')->getRoutes());
+        }
+
         $serviceName = strtolower(config('app.name'));
         $jsonOutput = [
             'basePath' => $serviceName,
-            'api' => [],
+            'api' => $routes->toArray()
         ];
-
-        foreach ($routesCollection as $route) {
-            $action = $route->getAction();
-            $jsonOutput['api'][] = [
-                'methods' => $route->methods,
-                'original_uri' => $route->uri,
-                'uri' => $action['gateway_route'] ?? $route->uri,
-                'private' => $action['gateway_auth'] ?? false,
-            ];
-        }
 
         $disk = Storage::createLocalDriver(['root' => config('routersync.export_path')]);
         $disk->put(config('routersync.file_name'), json_encode($jsonOutput));

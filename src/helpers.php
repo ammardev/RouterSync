@@ -13,3 +13,11 @@ if ( ! function_exists('config_path'))
         return app()->basePath() . '/config' . ($path ? '/' . $path : $path);
     }
 }
+
+if ( ! function_exists('is_lumen'))
+{
+    function is_lumen()
+    {
+        return app() instanceof \Laravel\Lumen\Appliction;
+    }
+}

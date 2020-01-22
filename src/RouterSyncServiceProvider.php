@@ -5,6 +5,7 @@ namespace Luqta\RouterSync;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Luqta\RouterSync\Commands\ExportRoutes;
+use Luqta\RouterSync\Routing\Router;
 
 class RouterSyncServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,10 @@ class RouterSyncServiceProvider extends ServiceProvider
         $this->app->singleton('routersync', function ($app) {
             return new RouterSync;
         });
+
+        if($this->app instanceof \Laravel\Lumen\Application) {
+            $this->app->router = new Router($this->app);
+        }
     }
 
     public function provides()
