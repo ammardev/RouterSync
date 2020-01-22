@@ -38,8 +38,9 @@ class ExportRoutes extends Command
      */
     public function handle()
     {
-        if(config('routersync.is_gateway')) {
+        if (config('routersync.is_gateway')) {
             $this->error('This project is an API gateway. You can\'t export its routes.');
+
             return;
         }
 
@@ -47,21 +48,20 @@ class ExportRoutes extends Command
         $serviceName = strtolower(config('app.name'));
         $jsonOutput = [
             'basePath' => $serviceName,
-            'api' => []
+            'api' => [],
         ];
 
-        foreach($routesCollection as $route) {
+        foreach ($routesCollection as $route) {
             $action = $route->getAction();
             $jsonOutput['api'][] = [
-                "methods" => $route->methods,
-                "original_uri" => $route->uri,
-                "uri" => $action['gateway_route'] ?? $route->uri,
-                'private' => $action['gateway_auth'] ?? false
+                'methods' => $route->methods,
+                'original_uri' => $route->uri,
+                'uri' => $action['gateway_route'] ?? $route->uri,
+                'private' => $action['gateway_auth'] ?? false,
             ];
         }
 
         $disk = Storage::createLocalDriver(['root' => config('routersync.export_path')]);
         $disk->put(config('routersync.file_name'), json_encode($jsonOutput));
-        return;
     }
 }

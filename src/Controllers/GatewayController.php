@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
-class GatewayController extends Controller 
+class GatewayController extends Controller
 {
     protected $http;
 
@@ -15,16 +15,16 @@ class GatewayController extends Controller
         $this->http = $http;
     }
 
-    public function requestMicroservice(Request $request) 
+    public function requestMicroservice(Request $request)
     {
         $action = $request->route()->getAction();
         $files = $request->allFiles();
         $multipart = [];
-        foreach($files as $key => $file) {
+        foreach ($files as $key => $file) {
             $multipart[] = [
                 'name' => $key,
                 'contents' => fopen($file->getRealPath(), 'r'),
-                'fileName' => $file->getClientOriginalName()
+                'fileName' => $file->getClientOriginalName(),
             ];
         }
         $response = $this->http->request($request->method(), $action['original_uri'], [
