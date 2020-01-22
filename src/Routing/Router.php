@@ -14,6 +14,10 @@ class Router extends LumenRouter
         $this->routesCollection = new RoutesCollection();
     }
 
+    public function getCollection() {
+        return $this->routesCollection;
+    }
+
     public function addRoute($method, $uri, $action)
     {
         parent::addRoute($method, $uri, $action);
