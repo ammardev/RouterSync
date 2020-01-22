@@ -9,7 +9,11 @@ class RoutesCollection
 
     public function addRoute($method, $uri, $action)
     {
-        $this->routes[] = new Route($method, $uri, $action);
+        $route = new Route($method, $uri, $action['gateway_auth'] ?? false);
+        if(isset($action['gateway_route'])) {
+            $route->setGatewayRoute($action['gateway_route']);
+        }
+        $this->routes[] = $route;
     }
 
     public static function getInstanceFromLaravelCollection($collection)
