@@ -17,7 +17,7 @@ class GatewayController extends Controller
 
     public function requestMicroservice(Request $request)
     {
-        $action = $request->route()->getAction();
+        $original_uri = $request->route()[1]['original_uri'];
         $files = $request->allFiles();
         $multipart = [];
         foreach ($files as $key => $file) {
@@ -27,7 +27,7 @@ class GatewayController extends Controller
                 'fileName' => $file->getClientOriginalName(),
             ];
         }
-        $response = $this->http->request($request->method(), $action['original_uri'], [
+        $response = $this->http->request($request->method(), config('app.url') . '/' . $original_uri, [
             'body' => $request->getContent(),
             'multipart' => $multipart,
 
