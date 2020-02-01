@@ -18,7 +18,6 @@ class RouterSyncServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
         }
-
         if (config('routersync.is_gateway')) {
             $this->registerRoutes();
         }
@@ -63,11 +62,16 @@ class RouterSyncServiceProvider extends ServiceProvider
                     if ($method == 'HEAD') {
                         continue;
                     }
-                    $this->app->router->{$method}($fileContents['basePath'].'/'.trim($route['uri'], '/'), [
+                    $routeDefinition = [
                         'uses' => 'Luqta\RouterSync\Controllers\GatewayController@requestMicroservice',
-                        'middleware' => $route['private'] ? 'auth' : '',
                         'original_uri' => $fileContents['basePath'].'/'.trim($route['original_uri'], '/'),
-                    ]);
+                    ];
+
+                    if($route['private']) {
+                        $routeDefinition['middleware'] = 'auth';
+                    }
+
+                    $this->app->router->{$method}($fileContents['basePath'].'/'.trim($route['uri'], '/'), $routeDefinition);
                 }
             }
         }
