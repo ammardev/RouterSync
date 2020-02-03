@@ -5,6 +5,7 @@ namespace Luqta\RouterSync\Controllers;
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class GatewayController extends Controller
 {
@@ -15,9 +16,18 @@ class GatewayController extends Controller
         $this->http = $http;
     }
 
+    protected function replaceRouteParameters($route, &$parameters = [])
+    {
+        return preg_replace_callback('/\{(.*?)(:.*?)?(\{[0-9,]+\})?\}/', function ($m) use (&$parameters) {
+            return isset($parameters[$m[1]]) ? Arr::pull($parameters, $m[1]) : $m[0];
+        }, $route);
+    }
+
     public function requestMicroservice(Request $request)
     {
         $original_uri = $request->route()[1]['original_uri'];
+        $matchedUrl = $this->replaceRouteParameters($original_uri, $request->route()[2]);
+
         $files = $request->allFiles();
         $multipart = [];
         foreach ($files as $key => $file) {
@@ -27,7 +37,7 @@ class GatewayController extends Controller
                 'fileName' => $file->getClientOriginalName(),
             ];
         }
-        $response = $this->http->request($request->method(), config('app.url') . '/' . $original_uri, [
+        $response = $this->http->request($request->method(), config('app.url') . '/' . $matchedUrl, [
             'body' => $request->getContent(),
             'multipart' => $multipart,
 
