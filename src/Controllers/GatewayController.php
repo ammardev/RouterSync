@@ -38,9 +38,9 @@ class GatewayController extends Controller
             ];
         }
         $response = $this->http->request($request->method(), config('app.url') . '/' . $matchedUrl, [
+            'http_errors' => false,
             'body' => $request->getContent(),
             'multipart' => $multipart,
-
         ]);
 
         return response($response->getBody(), $response->getStatusCode());
