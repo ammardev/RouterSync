@@ -41,6 +41,7 @@ class GatewayController extends Controller
             'http_errors' => false,
             'body' => $request->getContent(),
             'multipart' => $multipart,
+            'headers' => $request->headers->all()
         ]);
 
         return response($response->getBody(), $response->getStatusCode());
