@@ -21,6 +21,21 @@ class Router extends LumenRouter
     public function addRoute($method, $uri, $action)
     {
         parent::addRoute($method, $uri, $action);
-        $this->routesCollection->addRoute($method, $uri, $action);
+        $this->routesCollection->addRoute($method, $this->getFullUri($uri), $action);
+    }
+
+    protected function getFullUri($uri)
+    {
+        $attributes = [];
+
+        if ($this->hasGroupStack()) {
+            $attributes = $this->mergeWithLastGroup([]);
+        }
+
+        if (isset($attributes['prefix'])) {
+            $uri = trim($attributes['prefix'], '/').'/'.trim($uri, '/');
+        }
+
+        return $uri;
     }
 }
