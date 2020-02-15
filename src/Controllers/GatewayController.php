@@ -23,7 +23,7 @@ class GatewayController extends Controller
         }, $route);
     }
 
-    public function requestMicroservice(Request $request) 
+    public function requestMicroservice(Request $request)
     {
         $original_uri = $request->route()[1]['original_uri'];
         $matchedUrl = $this->replaceRouteParameters($original_uri, $request->route()[2]);
@@ -31,7 +31,7 @@ class GatewayController extends Controller
         $headers = [
                 'Accept' => 'application/json',
         ];
-        if($request->header('Authorization')) {
+        if ($request->header('Authorization')) {
                 $headers['Authorization'] = $request->header('Authorization');
         }
 
@@ -52,5 +52,4 @@ class GatewayController extends Controller
 
         return response($response->getBody(), $response->getStatusCode());
     }
-    
 }
