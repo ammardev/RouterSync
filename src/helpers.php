@@ -1,7 +1,6 @@
 <?php
 
-if ( ! function_exists('config_path'))
-{
+if (! function_exists('config_path')) {
     /**
      * Get the configuration path.
      *
@@ -14,8 +13,7 @@ if ( ! function_exists('config_path'))
     }
 }
 
-if ( ! function_exists('is_lumen'))
-{
+if (! function_exists('is_lumen')) {
     function is_lumen()
     {
         return app() instanceof \Laravel\Lumen\Appliction;

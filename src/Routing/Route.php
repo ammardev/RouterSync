@@ -4,7 +4,7 @@ namespace Luqta\RouterSync\Routing;
 
 use Illuminate\Routing\Route as IlluminateRoute;
 
-class Route 
+class Route
 {
     protected $methods;
     protected $uri;
@@ -23,9 +23,12 @@ class Route
     public static function getInstanceFromIlluminateRoute(IlluminateRoute $illuminateRoute): Route
     {
         $action = $illuminateRoute->getAction();
-        $instance = new static($illuminateRoute->methods, $illuminateRoute->uri,
-            $action['gateway_auth'] ?? false);
-        if(isset($action['gateway_route'])) {
+        $instance = new static(
+            $illuminateRoute->methods,
+            $illuminateRoute->uri,
+            $action['gateway_auth'] ?? false
+        );
+        if (isset($action['gateway_route'])) {
             $instance->setGatewayRoute($action['gateway_route']);
         }
         return $instance;

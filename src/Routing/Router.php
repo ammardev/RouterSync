@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Luqta\RouterSync\Routing;
 
@@ -14,7 +14,8 @@ class Router extends LumenRouter
         $this->routesCollection = new RoutesCollection();
     }
 
-    public function getCollection() {
+    public function getCollection()
+    {
         return $this->routesCollection;
     }
 

@@ -44,7 +44,7 @@ class ExportRoutes extends Command
             return;
         }
 
-        if(app() instanceof \Laravel\Lumen\Application) {
+        if (app() instanceof \Laravel\Lumen\Application) {
             $routes = app('router')->getCollection();
         } else {
             $routes = RoutesCollection::getInstanceFromLaravelCollection(app('router')->getRoutes());

@@ -11,7 +11,7 @@ class RouterSyncServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        if($this->app instanceof \Laravel\Lumen\Application) {
+        if ($this->app instanceof \Laravel\Lumen\Application) {
             $this->app->configure('routersync');
         }
         $this->mergeConfigFrom(__DIR__.'/../config/routersync.php', 'routersync');
@@ -21,7 +21,6 @@ class RouterSyncServiceProvider extends ServiceProvider
         if (config('routersync.is_gateway')) {
             $this->registerRoutes();
         }
-
     }
 
     public function register()
@@ -30,7 +29,7 @@ class RouterSyncServiceProvider extends ServiceProvider
             return new RouterSync;
         });
 
-        if($this->app instanceof \Laravel\Lumen\Application) {
+        if ($this->app instanceof \Laravel\Lumen\Application) {
             $this->app->router = new Router($this->app);
         }
     }
@@ -67,7 +66,7 @@ class RouterSyncServiceProvider extends ServiceProvider
                         'original_uri' => $fileContents['basePath'].'/'.trim($route['original_uri'], '/'),
                     ];
 
-                    if($route['private']) {
+                    if ($route['private']) {
                         $routeDefinition['middleware'] = 'auth';
                     }
 
