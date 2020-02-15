@@ -1,6 +1,6 @@
 <?php 
 
-namespace Luqta\RouterSync\Test;
+namespace Luqta\RouterSync\Tests;
 
 use Luqta\RouterSync\Facades\RouterSync;
 use Luqta\RouterSync\RouterSyncServiceProvider;
