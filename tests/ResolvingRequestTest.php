@@ -3,6 +3,7 @@
 namespace Luqta\RouterSync\Tests;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Luqta\RouterSync\Http\IlluminateRequestResolver;
 
 class ResolvingRequestTest extends TestCase
@@ -42,12 +43,18 @@ class ResolvingRequestTest extends TestCase
     }
 
     public function test_resolving_multipart_body() {
+        $file = UploadedFile::fake()->createWithContent('file.txt', 'routersync');
         $request = $this->createAndResolveRequest('POST', '/', [
             'lang' => 'php'
-        ], [
-            'doc' => 
+        ],
+        [],
+        [
+            'doc' => $file
         ]);
-        $this->assertTrue($request->getBody()['form_params']['lang'] === 'php');
+        $this->assertTrue($request->getBody()['multipart'][0]['name'] === 'lang');
+        $this->assertTrue($request->getBody()['multipart'][0]['contents'] === 'php');
+        $this->assertTrue($request->getBody()['multipart'][1]['name'] === 'doc');
+        $this->assertTrue($request->getBody()['multipart'][1]['contents'] === $file);
     }
 
     private function createAndResolveRequest(
