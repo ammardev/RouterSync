@@ -8,16 +8,16 @@ use Luqta\RouterSync\Http\IlluminateRequestResolver;
 
 class ResolvingRequestTest extends TestCase
 {
-
     private $resolver;
 
-    protected function setUp(): void 
+    protected function setUp(): void
     {
         $this->resolver = new IlluminateRequestResolver();
         parent::setUp();
     }
 
-    public function test_accept_header_value() {
+    public function test_accept_header_value()
+    {
         $request = $this->createAndResolveRequest();
         $this->assertTrue(
             $request->getHeader('accept') === 'application/json',
@@ -25,9 +25,10 @@ class ResolvingRequestTest extends TestCase
         );
     }
 
-    public function test_custom_header_resolving() {
-        $request = $this->createAndResolveRequest('GET', '/', [] ,[
-            'X-Test' => 'success'
+    public function test_custom_header_resolving()
+    {
+        $request = $this->createAndResolveRequest('GET', '/', [], [
+            'X-Test' => 'success',
         ]);
         $this->assertTrue(
             $request->getHeader('X-Test') === 'success',
@@ -35,21 +36,23 @@ class ResolvingRequestTest extends TestCase
         );
     }
 
-    public function test_resolving_input_params() {
+    public function test_resolving_input_params()
+    {
         $request = $this->createAndResolveRequest('POST', '/', [
-            'lang' => 'php'
+            'lang' => 'php',
         ]);
         $this->assertTrue($request->getBody()['form_params']['lang'] === 'php');
     }
 
-    public function test_resolving_multipart_body() {
+    public function test_resolving_multipart_body()
+    {
         $file = UploadedFile::fake()->createWithContent('file.txt', 'routersync');
         $request = $this->createAndResolveRequest('POST', '/', [
-            'lang' => 'php'
+            'lang' => 'php',
         ],
         [],
         [
-            'doc' => $file
+            'doc' => $file,
         ]);
         $this->assertTrue($request->getBody()['multipart'][0]['name'] === 'lang');
         $this->assertTrue($request->getBody()['multipart'][0]['contents'] === 'php');
@@ -63,13 +66,13 @@ class ResolvingRequestTest extends TestCase
         $input_params = [],
         $headers = [],
         $files = []
-    ) 
-    {
-        $illuminateRequest= Request::create($method, $path, $input_params, [], $files);
-        foreach($headers as $key => $value) {
+    ) {
+        $illuminateRequest = Request::create($method, $path, $input_params, [], $files);
+        foreach ($headers as $key => $value) {
             $illuminateRequest->headers->set($key, $value);
         }
         $this->resolver->setRequest($illuminateRequest);
+
         return $this->resolver->resolve();
     }
 }

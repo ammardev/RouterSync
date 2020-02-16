@@ -17,6 +17,7 @@ class Request
     public function getHeader(string $key): string
     {
         $key = ucwords($key, '-');
+
         return $this->headers[$key];
     }
 
@@ -49,9 +50,10 @@ class Request
     {
         $arr = [
             'http_errors' => false,
-            'headers' => $this->headers
+            'headers' => $this->headers,
         ];
         $arr = array_merge($arr, $this->body);
+
         return $arr;
     }
 

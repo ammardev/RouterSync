@@ -23,6 +23,7 @@ class RoutesCollection
             $routes[] = Route::getInstanceFromIlluminateRoute($route);
         }
         $instance->routes = $routes;
+
         return $instance;
     }
 
@@ -32,6 +33,7 @@ class RoutesCollection
         foreach ($this->routes as $route) {
             $collection[] = $route->toArray();
         }
+
         return $collection;
     }
 }
