@@ -41,6 +41,9 @@ class IlluminateRequestResolver
     protected function resolveHeaders()
     {
         foreach ($this->illuminateRequest->header() as $key => $value) {
+            if($key == 'content-type') {
+                continue;
+            }
             $this->request->addHeader($key, $value[0]);
         }
         $this->request->addHeader('Accept', 'application/json');
@@ -59,22 +62,32 @@ class IlluminateRequestResolver
 
     protected function resolveMultipart($inputs, $files)
     {
-        $multipart = [];
-        foreach ($inputs as $key => $value) {
-            $multipart[] = [
-                'name' => $key,
-                'contents' => $value,
-            ];
-        }
-
-        foreach ($files as $key => $value) {
-            $multipart[] = [
-                'name' => $key,
-                'contents' => $value,
-            ];
-        }
-
+        $multipart = $this->encodeArrayToMultipart($inputs);
+        $multipart = array_merge($multipart, $this->encodeArrayToMultipart($files));
         $this->request->setBody(['multipart' => $multipart]);
+    }
+
+    public function encodeArrayToMultipart($arr, $parent = null) {
+        $multipart = [];
+        foreach($arr as $key => $value) {
+            if(is_array($value)) {
+                $multipart = array_merge($multipart, $this->encodeArrayToMultipart($value,$this->formatMultipartParent($parent, $key)));
+            } else {
+                $multipart[] = [
+                    'name' => $this->formatMultipartParent($parent, $key),
+                    'contents' => $value,
+                ];
+            }
+        }
+        return $multipart;
+    }
+
+    public function formatMultipartParent($parent, $item) {
+        if($parent) {
+            return $parent . '[' . $item . ']';
+        } else {
+            return $item;
+        }
     }
 
     protected function resolveFormParams($inputs)
