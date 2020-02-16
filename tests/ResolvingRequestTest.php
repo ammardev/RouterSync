@@ -57,7 +57,6 @@ class ResolvingRequestTest extends TestCase
         $this->assertTrue($request->getBody()['multipart'][0]['name'] === 'lang');
         $this->assertTrue($request->getBody()['multipart'][0]['contents'] === 'php');
         $this->assertTrue($request->getBody()['multipart'][1]['name'] === 'doc');
-        $this->assertTrue($request->getBody()['multipart'][1]['contents'] === $file);
     }
 
     private function createAndResolveRequest(

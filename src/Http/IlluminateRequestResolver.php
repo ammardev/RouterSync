@@ -3,6 +3,7 @@
 namespace Luqta\RouterSync\Http;
 
 use Illuminate\Http\Request as IlluminateRequest;
+use Illuminate\Http\UploadedFile;
 
 class IlluminateRequestResolver
 {
@@ -74,10 +75,16 @@ class IlluminateRequestResolver
             if (is_array($value)) {
                 $multipart = array_merge($multipart, $this->encodeArrayToMultipart($value, $this->formatMultipartParent($parent, $key)));
             } else {
-                $multipart[] = [
+                $item = [
                     'name' => $this->formatMultipartParent($parent, $key),
                     'contents' => $value,
                 ];
+                if($value instanceof UploadedFile) {
+                    $item['filename'] = $value->getClientOriginalName();
+                    $item['Mime-Type'] = $value->getMimeType();
+                    $item['contents'] = fopen($value->getPathname(), 'r');
+                } 
+                $multipart[] = $item;
             }
         }
         return $multipart;
