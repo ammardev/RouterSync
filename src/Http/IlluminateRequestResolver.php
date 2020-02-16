@@ -21,9 +21,19 @@ class IlluminateRequestResolver
 
     public function resolve(): Request
     {
+        $this->resolveAttributes();
         $this->resolveHeaders();
         $this->resolveBody();
         return $this->request;
+    }
+
+    protected function resolveAttributes()
+    {
+        $illuminateRoute = $this->illuminateRequest->route();
+        if(isset($illuminateRoute[1]['original_uri'])) {
+            $this->request->original_url = $illuminateRoute[1]['original_uri'];
+            $this->request->setMatchedUrl($illuminateRoute[2]);
+        }
     }
 
     protected function resolveHeaders()
