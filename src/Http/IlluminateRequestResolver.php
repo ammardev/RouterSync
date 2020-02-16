@@ -30,7 +30,7 @@ class IlluminateRequestResolver
     protected function resolveAttributes()
     {
         $illuminateRoute = $this->illuminateRequest->route();
-        if(isset($illuminateRoute[1]['original_uri'])) {
+        if (isset($illuminateRoute[1]['original_uri'])) {
             $this->request->original_url = $illuminateRoute[1]['original_uri'];
             $this->request->setMatchedUrl($illuminateRoute[2]);
         }
@@ -66,7 +66,7 @@ class IlluminateRequestResolver
             ];
         }
 
-        foreach($files as $key => $value) {
+        foreach ($files as $key => $value) {
             $multipart[] = [
                 'name' => $key,
                 'contents' => $value

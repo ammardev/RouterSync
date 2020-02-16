@@ -25,11 +25,13 @@ class Request
         $this->headers[ucwords($key, '-')] = $value;
     }
 
-    public function setBody(array $body) {
+    public function setBody(array $body)
+    {
         $this->body = $body;
     }
 
-    public function getBody(): array {
+    public function getBody(): array
+    {
         return $this->body;
     }
 
