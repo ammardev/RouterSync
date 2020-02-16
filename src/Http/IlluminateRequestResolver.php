@@ -79,11 +79,11 @@ class IlluminateRequestResolver
                     'name' => $this->formatMultipartParent($parent, $key),
                     'contents' => $value,
                 ];
-                if($value instanceof UploadedFile) {
+                if ($value instanceof UploadedFile) {
                     $item['filename'] = $value->getClientOriginalName();
                     $item['Mime-Type'] = $value->getMimeType();
                     $item['contents'] = fopen($value->getPathname(), 'r');
-                } 
+                }
                 $multipart[] = $item;
             }
         }
