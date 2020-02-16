@@ -24,7 +24,7 @@ Please see the [changelog](changelog.md) for more information on what has change
 ## Testing
 
 ``` bash
-$ composer test
+$ vendor/bin/phpunit
 ```
 
 ## Contributing
@@ -37,7 +37,7 @@ If you discover any security related issues, please email author email instead o
 
 ## Credits
 
-- [author name][link-author]
+- [Ammar Al-Khawaldeh][link-author]
 - [All Contributors][link-contributors]
 
 ## License
@@ -47,11 +47,11 @@ license. Please see the [license file](license.md) for more information.
 [ico-version]: https://img.shields.io/packagist/v/luqta/routersync.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/luqta/routersync.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/luqta/routersync/master.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/12345678/shield
+[ico-styleci]: https://github.styleci.io/repos/234968991/shield
 
 [link-packagist]: https://packagist.org/packages/luqta/routersync
 [link-downloads]: https://packagist.org/packages/luqta/routersync
 [link-travis]: https://travis-ci.org/luqta/routersync
 [link-styleci]: https://styleci.io/repos/12345678
-[link-author]: https://github.com/luqta
+[link-author]: https://ammar.dev/
 [link-contributors]: ../../contributors
