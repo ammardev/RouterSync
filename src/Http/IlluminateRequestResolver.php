@@ -87,13 +87,14 @@ class IlluminateRequestResolver
                 $multipart[] = $item;
             }
         }
+
         return $multipart;
     }
 
     public function formatMultipartParent($parent, $item)
     {
         if ($parent) {
-            return $parent . '[' . $item . ']';
+            return $parent.'['.$item.']';
         } else {
             return $item;
         }
