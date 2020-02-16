@@ -2,6 +2,8 @@
 
 namespace Luqta\RouterSync\Http;
 
+use Illuminate\Support\Arr;
+
 class Request
 {
     public $original_url;
