@@ -24,6 +24,7 @@ class IlluminateRequestResolver
         $this->resolveAttributes();
         $this->resolveHeaders();
         $this->resolveBody();
+
         return $this->request;
     }
 
@@ -62,14 +63,14 @@ class IlluminateRequestResolver
         foreach ($inputs as $key => $value) {
             $multipart[] = [
                 'name' => $key,
-                'contents' => $value
+                'contents' => $value,
             ];
         }
 
         foreach ($files as $key => $value) {
             $multipart[] = [
                 'name' => $key,
-                'contents' => $value
+                'contents' => $value,
             ];
         }
 
@@ -78,6 +79,6 @@ class IlluminateRequestResolver
 
     protected function resolveFormParams($inputs)
     {
-        $this->request->setBody(['form_params' => $inputs ]);
+        $this->request->setBody(['form_params' => $inputs]);
     }
 }

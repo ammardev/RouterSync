@@ -10,17 +10,16 @@ class Route
     protected $uri;
     protected $gateway_route;
     protected $is_private;
-    
 
     public function __construct($methods, string $uri, bool $is_private = false)
     {
-        $this->methods = is_string($methods)? [$methods]:$methods;
+        $this->methods = is_string($methods) ? [$methods] : $methods;
         $this->uri = $uri;
         $this->gateway_route = $uri;
         $this->is_private = $is_private;
     }
 
-    public static function getInstanceFromIlluminateRoute(IlluminateRoute $illuminateRoute): Route
+    public static function getInstanceFromIlluminateRoute(IlluminateRoute $illuminateRoute): self
     {
         $action = $illuminateRoute->getAction();
         $instance = new static(
@@ -31,6 +30,7 @@ class Route
         if (isset($action['gateway_route'])) {
             $instance->setGatewayRoute($action['gateway_route']);
         }
+
         return $instance;
     }
 
@@ -45,7 +45,7 @@ class Route
             'methods' => $this->methods,
             'original_uri' => $this->uri,
             'uri' => $this->gateway_route,
-            'private' => $this->is_private
+            'private' => $this->is_private,
         ];
     }
 }

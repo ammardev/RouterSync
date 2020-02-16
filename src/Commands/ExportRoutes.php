@@ -41,6 +41,7 @@ class ExportRoutes extends Command
     {
         if (config('routersync.is_gateway')) {
             $this->error('This project is an API gateway. You can\'t export its routes.');
+
             return;
         }
 
@@ -53,7 +54,7 @@ class ExportRoutes extends Command
         $serviceName = strtolower(config('app.name'));
         $jsonOutput = [
             'basePath' => $serviceName,
-            'api' => $routes->toArray()
+            'api' => $routes->toArray(),
         ];
 
         $disk = Storage::createLocalDriver(['root' => config('routersync.export_path')]);

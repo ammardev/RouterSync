@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Luqta\RouterSync\Tests;
 
@@ -9,7 +9,7 @@ use Orchestra\Testbench\TestCase as OrchestraTestCase;
 class TestCase extends OrchestraTestCase
 {
     /**
-     * Load package service provider
+     * Load package service provider.
      * @param  \Illuminate\Foundation\Application $app
      * @return lasselehtinen\MyPackage\MyPackageServiceProvider
      */
@@ -17,8 +17,9 @@ class TestCase extends OrchestraTestCase
     {
         return [RouterSyncServiceProvider::class];
     }
+
     /**
-     * Load package alias
+     * Load package alias.
      * @param  \Illuminate\Foundation\Application $app
      * @return array
      */
