@@ -47,9 +47,22 @@ class IlluminateRequestResolver
 
     protected function resolveMultipart($inputs, $files)
     {
-        $body = [];
-        foreach ($inputs as $input) {
+        $multipart = [];
+        foreach ($inputs as $key => $value) {
+            $multipart[] = [
+                'name' => $key,
+                'contents' => $value
+            ];
         }
+
+        foreach($files as $key => $value) {
+            $multipart[] = [
+                'name' => $key,
+                'contents' => $value
+            ];
+        }
+
+        $this->request->setBody(['multipart' => $multipart]);
     }
 
     protected function resolveFormParams($inputs)
