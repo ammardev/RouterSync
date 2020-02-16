@@ -34,6 +34,7 @@ class IlluminateRequestResolver
             $this->request->original_url = $illuminateRoute[1]['original_uri'];
             $this->request->setMatchedUrl($illuminateRoute[2]);
         }
+        $this->request->method = $this->illuminateRequest->method();
     }
 
     protected function resolveHeaders()
