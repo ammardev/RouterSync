@@ -11,7 +11,6 @@ class Request
     protected $matched_url;
     protected $headers;
     protected $body;
-    protected $files;
     protected $cookies;
 
     public function getHeader(string $key): string
