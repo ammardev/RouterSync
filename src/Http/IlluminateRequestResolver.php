@@ -41,7 +41,7 @@ class IlluminateRequestResolver
     protected function resolveHeaders()
     {
         foreach ($this->illuminateRequest->header() as $key => $value) {
-            if($key == 'content-type') {
+            if ($key == 'content-type') {
                 continue;
             }
             $this->request->addHeader($key, $value[0]);
@@ -67,11 +67,12 @@ class IlluminateRequestResolver
         $this->request->setBody(['multipart' => $multipart]);
     }
 
-    public function encodeArrayToMultipart($arr, $parent = null) {
+    public function encodeArrayToMultipart($arr, $parent = null)
+    {
         $multipart = [];
-        foreach($arr as $key => $value) {
-            if(is_array($value)) {
-                $multipart = array_merge($multipart, $this->encodeArrayToMultipart($value,$this->formatMultipartParent($parent, $key)));
+        foreach ($arr as $key => $value) {
+            if (is_array($value)) {
+                $multipart = array_merge($multipart, $this->encodeArrayToMultipart($value, $this->formatMultipartParent($parent, $key)));
             } else {
                 $multipart[] = [
                     'name' => $this->formatMultipartParent($parent, $key),
@@ -82,8 +83,9 @@ class IlluminateRequestResolver
         return $multipart;
     }
 
-    public function formatMultipartParent($parent, $item) {
-        if($parent) {
+    public function formatMultipartParent($parent, $item)
+    {
+        if ($parent) {
             return $parent . '[' . $item . ']';
         } else {
             return $item;
