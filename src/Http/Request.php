@@ -52,7 +52,7 @@ class Request
             'headers' => $this->headers
         ];
         $arr = array_merge($arr, $this->body);
-        return $arr
+        return $arr;
     }
 
     protected function replaceRouteParameters($route, &$parameters = [])
