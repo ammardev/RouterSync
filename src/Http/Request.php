@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 
 class Request
 {
+    public $method;
     public $original_url;
     protected $matched_url;
     protected $headers;
@@ -32,9 +33,24 @@ class Request
         return $this->body;
     }
 
+    public function getMatchedUrl()
+    {
+        return $this->matched_url;
+    }
+
     public function setMatchedUrl($parameters)
     {
         $this->matched_url = $this->replaceRouteParameters($this->original_url, $parameters);
+    }
+
+    public function toArray(): array
+    {
+        $arr = [
+            'http_errors' => false,
+            'headers' => $this->headers
+        ];
+        $arr = array_merge($arr, $this->body);
+        return $arr
     }
 
     protected function replaceRouteParameters($route, &$parameters = [])
