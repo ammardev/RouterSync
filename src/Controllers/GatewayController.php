@@ -25,7 +25,7 @@ class GatewayController extends Controller
 
         $response = $this->http->request(
             $request->method,
-            config('app.url').'/'.$request->matched_url,
+            config('app.url').'/'.$request->getMatchedUrl(),
             $request->toArray()
         );
 
