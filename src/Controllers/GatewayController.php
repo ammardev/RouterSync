@@ -22,10 +22,11 @@ class GatewayController extends Controller
     {
         $this->resolver->setRequest($illuminateRequest);
         $request = $this->resolver->resolve();
+        $query = trim(str_replace('/&', '?', $_SERVER['QUERY_STRING']), '/');
 
         $response = $this->http->request(
             $request->method,
-            config('app.url').'/'.$request->getMatchedUrl(),
+            config('app.url').'/'.$request->getMatchedUrl() . $query,
             $request->toArray()
         );
 
