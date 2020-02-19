@@ -61,9 +61,6 @@ class RouterSyncServiceProvider extends ServiceProvider
                     if ($method == 'HEAD') {
                         continue;
                     }
-                    if ($method == 'PATCH') {
-                        $method = 'POST';
-                    }
                     $routeDefinition = [
                         'uses' => 'Luqta\RouterSync\Controllers\GatewayController@requestMicroservice',
                         'original_uri' => $fileContents['basePath'].'/'.trim($route['original_uri'], '/'),

@@ -23,9 +23,14 @@ class GatewayController extends Controller
         $this->resolver->setRequest($illuminateRequest);
         $request = $this->resolver->resolve();
         $query = trim(str_replace('/&', '?', $_SERVER['QUERY_STRING']), '/');
+        $method = $request->method;
+
+        if($method == 'PATCH') {
+            $method = 'POST';
+        }
 
         $response = $this->http->request(
-            $request->method,
+            $method,
             config('app.url').'/'.$request->getMatchedUrl() . $query,
             $request->toArray()
         );
