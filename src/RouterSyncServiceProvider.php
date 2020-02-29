@@ -62,7 +62,7 @@ class RouterSyncServiceProvider extends ServiceProvider
                         continue;
                     }
                     $routeDefinition = [
-                        'uses' => 'Luqta\RouterSync\Controllers\GatewayController@requestMicroservice',
+                        'uses' => config('routersync.controller_name') . '@requestMicroservice',
                         'original_uri' => $fileContents['basePath'].'/'.trim($route['original_uri'], '/'),
                     ];
 

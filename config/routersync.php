@@ -16,4 +16,10 @@ return [
      * The name of the exported file.
      */
     'file_name' => strtolower(config('app.name')),
+
+    /**
+     * The controller namespace. If you want to extend the controller and use
+     * your own controller you can change this namespace.
+     */
+    'controller_name' => 'Luqta\RouterSync\Controllers\GatewayController'
 ];
