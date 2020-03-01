@@ -21,5 +21,10 @@ return [
      * The controller namespace. If you want to extend the controller and use
      * your own controller you can change this namespace.
      */
-    'controller_name' => 'Luqta\RouterSync\Controllers\GatewayController'
+    'controller_name' => 'Luqta\RouterSync\Controllers\GatewayController',
+
+    /**
+     * You can set a custom global route prefix for all routes
+     */
+    'routes_prefix' => ''
 ];

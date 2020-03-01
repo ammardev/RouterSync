@@ -52,27 +52,31 @@ class RouterSyncServiceProvider extends ServiceProvider
 
     private function registerRoutes()
     {
-        $disk = Storage::createLocalDriver(['root' => config('routersync.export_path')]);
-        $filesNames = $disk->files();
-        foreach ($filesNames as $fileName) {
-            $fileContents = json_decode($disk->get($fileName), true);
-            foreach ($fileContents['api'] as $route) {
-                foreach ($route['methods'] as $method) {
-                    if ($method == 'HEAD') {
-                        continue;
-                    }
-                    $routeDefinition = [
-                        'uses' => config('routersync.controller_name') . '@requestMicroservice',
-                        'original_uri' => $fileContents['basePath'].'/'.trim($route['original_uri'], '/'),
-                    ];
+        $this->app->router->group([
+            'prefix' => config('routersync.routes_prefix')
+        ], function() {
+            $disk = Storage::createLocalDriver(['root' => config('routersync.export_path')]);
+            $filesNames = $disk->files();
+            foreach ($filesNames as $fileName) {
+                $fileContents = json_decode($disk->get($fileName), true);
+                foreach ($fileContents['api'] as $route) {
+                    foreach ($route['methods'] as $method) {
+                        if ($method == 'HEAD') {
+                            continue;
+                        }
+                        $routeDefinition = [
+                            'uses' => config('routersync.controller_name') . '@requestMicroservice',
+                            'original_uri' => $fileContents['basePath'].'/'.trim($route['original_uri'], '/'),
+                        ];
 
-                    if ($route['private']) {
-                        $routeDefinition['middleware'] = 'auth';
-                    }
+                        if ($route['private']) {
+                            $routeDefinition['middleware'] = 'auth';
+                        }
 
-                    $this->app->router->{$method}($fileContents['basePath'].'/'.trim($route['uri'], '/'), $routeDefinition);
+                        $this->app->router->{$method}($fileContents['basePath'].'/'.trim($route['uri'], '/'), $routeDefinition);
+                    }
                 }
             }
-        }
+        });
     }
 }
