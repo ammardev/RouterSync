@@ -23,7 +23,7 @@ class GatewayController extends Controller
         $this->resolver->setRequest($illuminateRequest);
         $request = $this->resolver->resolve();
         $query = trim(str_replace('/&', '?', $_SERVER['QUERY_STRING']), '/');
-        $query .= $this->setCustomQueryString();
+        $query .= $this->setCustomQueryString($illuminateRequest);
         $method = $request->method;
 
         if($method == 'PATCH') {
@@ -42,7 +42,7 @@ class GatewayController extends Controller
     /**
      * A user can override this method to add custom queries
      */
-    protected function setCustomQueryString()
+    protected function setCustomQueryString(Request $request)
     {
         return '';
     }
