@@ -24,7 +24,7 @@ class GatewayController extends Controller
         $request = $this->resolver->resolve();
         $query = trim(str_replace('/&', '?', $_SERVER['QUERY_STRING']), '/');
         $query .= $this->setCustomQueryString();
-        $method = request->method;
+        $method = $request->method;
 
         if($method == 'PATCH') {
             $method = 'POST';
