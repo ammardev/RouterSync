@@ -54,7 +54,7 @@ class RouterSyncServiceProvider extends ServiceProvider
     {
         $this->app->router->group([
             'prefix' => config('routersync.routes_prefix')
-        ], function() {
+        ], function () {
             $disk = Storage::createLocalDriver(['root' => config('routersync.export_path')]);
             $filesNames = $disk->files();
             foreach ($filesNames as $fileName) {
