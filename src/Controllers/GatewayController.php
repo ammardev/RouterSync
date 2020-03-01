@@ -24,6 +24,9 @@ class GatewayController extends Controller
         $request = $this->resolver->resolve();
         $query = trim(str_replace('/&', '?', $_SERVER['QUERY_STRING']), '/');
         $query .= $this->setCustomQueryString($illuminateRequest);
+        if($query[0] == '&') {
+            $query[0] = '?';
+        }
         $method = $request->method;
 
         if($method == 'PATCH') {
